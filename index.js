@@ -15,6 +15,11 @@ login({email: deets.email, password: deets.password}, (err, api) => {
     if(err) return console.error(err);
 
     api.listen((err, message) => {
+        if(message.body.indexOf("!echo") > -1) {
+            //withoutcommand = message.body.split(':')[1];
+            //api.sendMessage(withoutcommand, message.threadID);
+            api.sendMessage(message.body, message.threadID);
+        }
         if (message.body.indexOf("!count") > -1) {
             help(api, message.threadID);
             return;
@@ -29,7 +34,6 @@ login({email: deets.email, password: deets.password}, (err, api) => {
         }
 
         if (message.senderID == '100008167564917' || message.threadID == "100000052597716") {
-
             var body = message.body.toLowerCase().split(' ');
 
             data.count += body.reduce((acc, val) => {
